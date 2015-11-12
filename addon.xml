@@ -19,6 +19,10 @@
     <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
     <forum/>
     <website/>
+<<<<<<< HEAD
     <source>https://github.com/mampfes/script.module.openhab</source>
+=======
+    <source/>
+>>>>>>> ac1a66bafeb639689a66ed5b97582c088741cf3d
   </extension>
 </addon>
