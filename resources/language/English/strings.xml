@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <!-- English -->
+    <!-- Script Settings -->
+	<string id="30000">Server Address</string>
+	<string id="30001">Server Port</string>
+	<string id="30002">Sitemap</string>
+    <string id="30003">Authentication</string>
+	<string id="30004">Username</string>
+	<string id="30005">Password</string>
+    <string id="30006">Select Sitemap...</string>
+    <string id="30007">Error</string>
+    <string id="30008">Selecting sitemap failed due to communication problems with openHAB server. Please check server address and port and store settings once before selecting sitemap.</string>
+    <string id="30009">Auto Update</string>
+	<string id="30010">Debug</string>
+    <string id="30011">Proxy</string>
+    <!--Authentication setting selections-->
+    <string id="30100">None</string>
+    <string id="30101">Basic</string>
+    <!--Proxy setting selections-->
+    <string id="30110">System</string>
+    <string id="30111">None</string>
+    <!--Skin texts-->
+    <string id="30200">openHAB</string>
+    <string id="30201">Can't connect to openHAB server. Please check settings.</string>
+    <string id="30202">Up</string>
+    <string id="30203">Stop</string>
+    <string id="30204">Down</string>
+    <string id="30205">Connection to openHAB server lost.</string>
+</strings>

@@ -1,0 +1,11 @@
+# build dir
+build/
+# compiled python files
+*.pyc
+*.pyo
+
+# backup files
+*.bak
+
+# PyCharm
+.idea/

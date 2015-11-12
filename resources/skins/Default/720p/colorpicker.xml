@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="5535" type="dialog">
+	<defaultcontrol always="true">100</defaultcontrol>
+	<coordinates>
+		<system>1</system>
+		<left>340</left>
+		<top>40</top>
+	</coordinates>
+	<allowoverlay>yes</allowoverlay>
+	<include>dialogeffect</include>
+	<controls>
+		<include name="DialogBackgroundCommons">
+            <param name="DialogBackgroundWidth" value="604" />
+            <param name="DialogBackgroundHeight" value="414" />
+            <param name="DialogHeaderLabel" value="$INFO[Container(5535).Property(title)]" />
+            <param name="DialogHeaderWidth" value="500" />
+            <param name="DialogHeaderId" value="" />
+            <param name="CloseButtonLeft" value="500" />
+            <param name="CloseButtonNav" value="1100" />
+        </include>
+		<control type="group"> <!--content -->
+			<control type="panel" id="100">
+				<left>30</left>
+				<top>82</top>
+				<width>544</width>
+				<height>304</height>
+				<onup>100</onup>
+				<ondown>100</ondown>
+				<onleft>100</onleft>
+				<onright>100</onright>
+				<orientation>horizontal</orientation>
+				<scrolltime>200</scrolltime>
+				<itemlayout height="60" width="60">
+					<control type="group">
+						<left>4</left>
+						<top>4</top>
+						<control type="image">
+							<width>56</width>
+							<height>56</height>
+							<texture>$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="label">
+							<width>56</width>
+							<height>56</height>
+							<align>center</align>
+							<aligny>center</aligny>
+							<font>font13_title</font>
+							<textcolor>AA000000</textcolor>
+							<label>ListItem.IsSelected</label>
+                            <visible>ListItem.IsSelected + !StringCompare(ListItem.Label, FF000000)</visible>
+						</control>
+						<control type="label">
+							<width>56</width>
+							<height>56</height>
+							<align>center</align>
+							<aligny>center</aligny>
+							<font>font13_title</font>
+							<textcolor>AAffffff</textcolor>
+							<label>X</label>
+                            <visible>ListItem.IsSelected + StringCompare(ListItem.Label, FF000000)</visible>
+						</control>
+					</control>
+				</itemlayout>
+				<focusedlayout height="60" width="60">
+                    <control type="image">
+                        <left>0</left>
+                        <top>0</top>
+                        <width>64</width>
+                        <height>64</height>
+                        <texture>colors/FFFFFFFF.png</texture>
+                    </control>
+					<control type="group">
+						<left>4</left>
+						<top>4</top>
+						<control type="image">
+							<width>56</width>
+							<height>56</height>
+							<texture>$INFO[ListItem.Art(thumb)]</texture>
+						</control>
+						<control type="label">
+							<width>56</width>
+							<height>56</height>
+							<align>center</align>
+							<aligny>center</aligny>
+							<font>font13_title</font>
+							<textcolor>AA000000</textcolor>
+							<label>ListItem.IsSelected</label>
+                            <visible>ListItem.IsSelected + !StringCompare(ListItem.Label, FF000000)</visible>
+						</control>
+						<control type="label">
+							<width>56</width>
+							<height>56</height>
+							<align>center</align>
+							<aligny>center</aligny>
+							<font>font13_title</font>
+							<textcolor>AAffffff</textcolor>
+							<label>X</label>
+                            <visible>ListItem.IsSelected + StringCompare(ListItem.Label, FF000000)</visible>
+						</control>
+					</control>
+				</focusedlayout>
+			</control>
+		</control>
+	</controls>
+</window>

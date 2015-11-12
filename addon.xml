@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.module.openhab" name="openHAB" version="1.0.0" provider-name="mampfes">
+  <requires>
+    <import addon="xbmc.python" version="2.19.0"/>
+    <import addon="xbmc.gui" version="5.3.0"/>
+    <import addon="script.module.requests" version="2.7.0"/>
+  </requires>
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
+
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">openHAB</summary>
+    <description lang="en">openHAB for Kodi is a frontend to control an openHAB server over a network connection. It implements a lot of elements from the openHAB Classic UI web interface just using the Kodi GUI.[CR]With openHAB for Kodi you can navigate through your openHAB sitemaps, watch all your item's states and set any item state, e.g. boolean switches, dimmers, set-points, colors, etc.
+    </description>
+    <disclaimer lang="en">Kodi and openHAB are trademarks of their respective owners.</disclaimer>
+    <language>en</language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+    <forum/>
+    <website/>
+    <source/>
+  </extension>
+</addon>
