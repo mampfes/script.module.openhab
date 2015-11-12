@@ -49,6 +49,14 @@ class MainWindow(menulist.MainWindow):
             xbmcgui.Dialog().ok(ADDON.getLocalizedString(30007), ADDON.getLocalizedString(30201))
             self.close()
             ADDON.openSettings()
+        except KeyError:
+            # invalid sitemap -> close window immediately
+            debugPrint(1, "build_menu failed, host=%s, port=%s, auth=%s, sitemap=%s" %
+                   (ADDON.getSetting('host'), ADDON.getSetting('port'),
+                    ADDON.getSetting('authentication'), ADDON.getSetting('sitemap')))
+            xbmcgui.Dialog().ok(ADDON.getLocalizedString(30007), ADDON.getLocalizedString(30206))
+            self.close()
+            ADDON.openSettings()
         self.enter_sub_menu(self.homepage)
 
     def enter_sub_menu(self, page):

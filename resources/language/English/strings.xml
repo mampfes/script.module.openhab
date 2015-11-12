@@ -27,4 +27,5 @@
     <string id="30203">Stop</string>
     <string id="30204">Down</string>
     <string id="30205">Connection to openHAB server lost.</string>
+    <string id="30206">Invalid sitemap name. Please check settings.</string>
 </strings>

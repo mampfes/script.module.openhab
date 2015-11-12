@@ -493,7 +493,11 @@ class GroupWidget(WidgetBase):
     @update_proxy
     def init(self, widgetData):
         super(GroupWidget, self).init(widgetData)
-        self.page = self.oh.create_page_class(self.page.sitemap, widgetData['linkedPage'], self.page)
+        if 'linkedPage' in widgetData:
+            self.page = self.oh.create_page_class(self.page.sitemap, widgetData['linkedPage'], self.page)
+        else:
+            self.page = None
+
 
 
 class ImageWidget(WidgetBase):

@@ -1,2 +1,6 @@
+V1.0.1 (12-Nov-2015)
+	(add) improved error handling
+	(fix) handle GroupWidget without linkedPage
+
 V1.0.0
 	(add) initial version
