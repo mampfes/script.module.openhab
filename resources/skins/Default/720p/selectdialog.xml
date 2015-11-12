@@ -1,0 +1,90 @@
+<window id="5534">
+	<coordinates>
+		<posx>340</posx>
+		<posy>40</posy>
+	</coordinates>
+	<include>dialogeffect</include>
+	<controls>
+		<include name="DialogBackgroundCommons">
+            <param name="DialogBackgroundWidth" value="600" />
+            <param name="DialogBackgroundHeight" value="585" />
+            <param name="DialogHeaderLabel" value="$INFO[Container(5534).Property(title)]" />
+            <param name="DialogHeaderWidth" value="500" />
+            <param name="DialogHeaderId" value="" />
+            <param name="CloseButtonLeft" value="500" />
+            <param name="CloseButtonNav" value="1100" />
+      </include>
+		<control type="group">
+         <include>Window_OpenClose_Animation</include>
+			<control type="list" id="1100">
+				<posx>20</posx>
+				<posy>70</posy>
+				<width>540</width>
+				<height>495</height>
+				<onup>1100</onup>
+				<ondown>1100</ondown>
+				<onleft>1101</onleft>
+				<onright>1101</onright>
+				<pagecontrol>1101</pagecontrol>
+				<scrolltime>200</scrolltime>
+				<itemlayout height="45">
+					<control type="image">
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>540</width>
+						<height>40</height>
+						<texture border="5">button-nofocus.png</texture>
+					</control>
+                    <control type="label">
+                        <posx>20</posx>
+                        <posy>0</posy>
+                        <width>500</width>
+                        <height>40</height>
+                        <font>font13</font>
+                        <align>left</align>
+                        <aligny>center</aligny>
+                        <textcolor>grey2</textcolor>
+                        <selectedcolor>selected</selectedcolor>
+                        <info>ListItem.Label</info>
+                    </control>
+				</itemlayout>
+				<focusedlayout height="45">
+					<control type="image">
+						<posx>0</posx>
+						<posy>0</posy>
+						<width>540</width>
+						<height>40</height>
+						<texture border="5">button-focus2.png</texture>
+					</control>
+					<control type="label">
+						<posx>20</posx>
+						<posy>0</posy>
+						<width>500</width>
+						<height>40</height>
+						<font>font13</font>
+						<align>left</align>
+						<aligny>center</aligny>
+						<textcolor>white</textcolor>
+						<selectedcolor>selected</selectedcolor>
+						<info>ListItem.Label</info>
+					</control>
+				</focusedlayout>
+			</control>
+			<control type="scrollbar" id="1101">
+				<posx>560</posx>
+				<posy>70</posy>
+				<width>25</width>
+				<height>495</height>
+				<texturesliderbackground border="0,14,0,14">ScrollBarV.png</texturesliderbackground>
+				<texturesliderbar border="0,14,0,14">ScrollBarV_bar.png</texturesliderbar>
+				<texturesliderbarfocus border="0,14,0,14">ScrollBarV_bar_focus.png</texturesliderbarfocus>
+				<textureslidernib>ScrollBarNib.png</textureslidernib>
+				<textureslidernibfocus>ScrollBarNib.png</textureslidernibfocus>
+				<onleft>1100</onleft>
+				<onright>1100</onright>
+				<showonepage>true</showonepage>
+				<orientation>vertical</orientation>
+			</control>
+		</control>
+	</controls>
+</window>
