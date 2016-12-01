@@ -208,7 +208,6 @@ class Server(object):
         if resp.text == '':
             # openHAB returns an empty response after 5 minutes if long-polling is enabled
             raise EmptyResponseError
-        debugPrint(5, 'response for url=%s, text=%s, headers=%s' % (url, resp.text, resp.headers))
         return resp.json(), resp.headers
 
     def fetch_rel_json_url(self, name, headers=None):
@@ -230,7 +229,7 @@ class Server(object):
         if not self.resources:
             self.load_resources()
         result = self.fetch_abs_json_url(self.resources['sitemaps'])[0]
-        for i in as_array(result['sitemap']):
+        for i in as_array(result):
             self.sitemaps[i['name']] = Sitemap(self, i)
         return self.sitemaps
 
@@ -274,27 +273,27 @@ class Server(object):
             i.init(itemData)
             return i
         else:
-            if itemData['type'] == 'CallItem':
+            if itemData['type'] == 'Call':
                 i = CallItem(self, itemData)
-            elif itemData['type'] == 'ColorItem':
+            elif itemData['type'] == 'Color':
                 i = ColorItem(self, itemData)
-            elif itemData['type'] == 'ContactItem':
+            elif itemData['type'] == 'Contact':
                 i = ContactItem(self, itemData)
-            elif itemData['type'] == 'DateTimeItem':
+            elif itemData['type'] == 'DateTime':
                 i = DateTimeItem(self, itemData)
-            elif itemData['type'] == 'DimmerItem':
+            elif itemData['type'] == 'Dimmer':
                 i = DimmerItem(self, itemData)
-            elif itemData['type'] == 'GroupItem':
+            elif itemData['type'] == 'Group':
                 i = GroupItem(self, itemData)
-            elif itemData['type'] == 'LocationItem':
+            elif itemData['type'] == 'Location':
                 i = LocationItem(self, itemData)
-            elif itemData['type'] == 'NumberItem':
+            elif itemData['type'] == 'Number':
                 i = NumberItem(self, itemData)
-            elif itemData['type'] == 'StringItem':
+            elif itemData['type'] == 'String':
                 i = StringItem(self, itemData)
-            elif itemData['type'] == 'SwitchItem':
+            elif itemData['type'] == 'Switch':
                 i = SwitchItem(self, itemData)
-            elif itemData['type'] == 'RollershutterItem':
+            elif itemData['type'] == 'Rollershutter':
                 i = RollerShutterItem(self, itemData)
             else:
                 debugPrint(1, 'unknown item type=%s, name=%s' % (itemData['type'], itemData['name']))
@@ -388,12 +387,12 @@ class Page(object):
     @update_proxy
     def init(self, pageData):
         self.attribs['link'] = pageData['link']
-        self.attribs['leaf'] = pageData['leaf'].lower() == 'true'
+        self.attribs['leaf'] = pageData['leaf']
         x = split_label(pageData.get('title'))
         self.attribs['title'] = x[0]
         self.attribs['value'] = x[1]
-        if 'widget' in pageData:
-            self.create_all_widgets(as_array(pageData['widget']))
+        if 'widgets' in pageData:
+            self.create_all_widgets(as_array(pageData['widgets']))
 
     def create_all_widgets(self, widgets):
         # create list of all existing widget-ids in case of an update
@@ -478,9 +477,9 @@ class FrameWidget(WidgetBase):
     @update_proxy
     def init(self, widgetData):
         super(FrameWidget, self).init(widgetData)
-        if 'widget' in widgetData:
+        if 'widgets' in widgetData:
             self.widgets = []
-            for w in as_array(widgetData['widget']):
+            for w in as_array(widgetData['widgets']):
                 i = self.oh.create_widget_class(self.page, w)
                 if i is not None:
                     self.widgets.append(i)
@@ -507,7 +506,7 @@ class ImageWidget(WidgetBase):
     @update_proxy
     def init(self, widgetData):
         super(ImageWidget, self).init(widgetData)
-        self.attribs['linkedPage'] = widgetData['linkedPage']  # don't create an extra openhab1.Page because not used so far
+        self.attribs['linkedPage'] = widgetData['linkedPage']  # don't create an extra Page because not used so far
         self.attribs['url'] = widgetData['url']
         self.attribs['refresh'] = int(widgetData.get('refresh', 0))
 
@@ -519,7 +518,7 @@ class SelectionWidget(WidgetBase):
     @update_proxy
     def init(self, widgetData):
         super(SelectionWidget, self).init(widgetData)
-        self.attribs['mapping'] = convert_mapping(widgetData.get('mapping'))
+        self.attribs['mapping'] = convert_mapping(widgetData.get('mappings'))
         if self.attribs['mapping'] and self.attribs['value'] is None and self.item.attribs['state'] is not None:
             self.attribs['value'] = self.attribs['mapping'].get(self.item.attribs['state'])
 
@@ -547,7 +546,7 @@ class SliderWidget(WidgetBase):
         self.attribs['max_value'] = Decimal(100)
         self.attribs['step'] = Decimal(1)
         self.attribs['send_frequency'] = int(widgetData.get('sendFrequency', 0))
-        self.attribs['switch_support'] = widgetData.get('switchSupport', '').lower() == 'true'
+        self.attribs['switch_support'] = widgetData.get('switchSupport', False)
 
 
 class SwitchWidget(WidgetBase):
@@ -557,7 +556,7 @@ class SwitchWidget(WidgetBase):
     @update_proxy
     def init(self, widgetData):
         super(SwitchWidget, self).init(widgetData)
-        self.attribs['mapping'] = convert_mapping(widgetData.get('mapping'))
+        self.attribs['mapping'] = convert_mapping(widgetData.get('mappings'))
         if self.attribs['mapping'] and self.attribs['value'] is None and self.item.attribs['state'] is not None:
             self.attribs['value'] = self.attribs['mapping'].get(self.item.attribs['state'])
 
@@ -672,14 +671,14 @@ class CallItem(ItemBase):
         super(CallItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return value
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         else:
             return value
 
@@ -699,14 +698,14 @@ class ColorItem(ItemBase):
         super(ColorItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return map(lambda x: float(x), value.split(',', 3))
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         else:
             return ','.join(map(lambda x: str(x), value))
 
@@ -747,22 +746,22 @@ class ContactItem(ItemBase):
         super(ContactItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
-        elif value == 'OPEN':
+        elif value == 'open':
             return True
-        elif value == 'CLOSED':
+        elif value == 'closed':
             return False
         else:
             raise ValueError()
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         elif value:
-            return 'OPEN'
+            return 'open'
         else:
-            return 'CLOSED'
+            return 'closed'
 
     def test_state_value(self, value):
         if not isinstance(value, bool):
@@ -775,17 +774,18 @@ class DateTimeItem(ItemBase):
         super(DateTimeItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             # datetime.strptime is not available on Kodi, therefore this workaround
             # see also: http://forum.kodi.tv/showthread.php?tid=112916
+            value = value.partition('.')[0] # remove ms and UTC offset because also not supported
             t = time.strptime(value, '%Y-%m-%dT%H:%M:%S')
             return datetime.datetime.fromtimestamp(time.mktime(t))
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         else:
             return value.isoformat()
 
@@ -800,14 +800,14 @@ class DimmerItem(ItemBase):
         super(DimmerItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return Decimal(value)
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         else:
             return str(value)
 
@@ -844,7 +844,7 @@ class GroupItem(ItemBase):
         super(GroupItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return value
@@ -858,14 +858,14 @@ class LocationItem(ItemBase):
         super(LocationItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return value
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         else:
             return value
 
@@ -880,14 +880,14 @@ class NumberItem(ItemBase):
         super(NumberItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return Decimal(value)
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         else:
             return str(value)
 
@@ -909,14 +909,14 @@ class RollerShutterItem(ItemBase):
         super(RollerShutterItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         else:
             return Decimal(value)
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         #        elif isinstance(value, str):
         #            return value
         else:
@@ -956,14 +956,14 @@ class StringItem(ItemBase):
         super(StringItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):  # REVISIT: what is the string for an uninitialized string item?
+        if value is None or value in ('NULL', 'UNDEF'):  # REVISIT: what is the string for an uninitialized string item?
             return None
         else:
             return value
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'  # REVISIT: what is the string for an undefined string item?
+            return 'UNDEF'  # REVISIT: what is the string for an undefined string item?
         else:
             return value
 
@@ -985,7 +985,7 @@ class SwitchItem(ItemBase):
         super(SwitchItem, self).__init__(oh, itemData)
 
     def state_from_string(self, value):
-        if value is None or value in ('Uninitialized', 'Undefined'):
+        if value is None or value in ('NULL', 'UNDEF'):
             return None
         elif value == 'ON':
             return True
@@ -996,7 +996,7 @@ class SwitchItem(ItemBase):
 
     def state_to_string(self, value):
         if value is None:
-            return 'Undefined'
+            return 'UNDEF'
         elif value:
             return 'ON'
         else:

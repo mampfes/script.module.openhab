@@ -6,7 +6,7 @@ import xbmcgui
 import sys
 import requests
 import resources.lib.menulist as menulist
-import resources.lib.openhab1 as openhab1
+import resources.lib.openhab2 as openhab2
 from resources.lib.debugout import debugPrint
 
 ADDON = xbmcaddon.Addon()
@@ -26,7 +26,7 @@ class MainWindow(menulist.MainWindow):
         self.homepage = None
 
     def build_menu(self):
-        self.oh = openhab1.Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
+        self.oh = openhab2.Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
         self.oh.terminate_callback.append(lambda oh: self.connection_lost())
 
         #if ADDON.getSetting('auto_update') == 'true':
@@ -113,13 +113,13 @@ class MainWindow(menulist.MainWindow):
             elif w.type_ == 'Slider':
                 li = menulist.ListItemSlider(w.item)
             elif w.type_ == 'Switch':
-                if w.item.type_ == 'SwitchItem':
+                if w.item.type_ == 'Switch':
                     li = menulist.ListItemSwitch(w.item)
-                elif w.item.type_ == 'RollershutterItem':
+                elif w.item.type_ == 'Rollershutter':
                     li = menulist.ListItemRollerShutter(w.item)
-                elif w.item.type_ == 'NumberItem':
+                elif w.item.type_ == 'Number':
                     li = menulist.ListItemSelection(w.item)
-                elif w.item.type_ == 'GroupItem':
+                elif w.item.type_ == 'Group':
                     li = menulist.ListItemSelection(w.item)
                 else:
                     debugPrint(1, 'SwitchWidget [%s]: unsupported item type: %s' % (w.widgetId, w.item.type_))
@@ -175,7 +175,7 @@ class MainWindow(menulist.MainWindow):
 
 def show_sitemaps():
     # show sitemap selection dialog instead of main window if called from settings dialog
-    oh = openhab1.Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
+    oh = openhab2.Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
     if ADDON.getSetting('authentication') == '1':
         oh.set_basic_auth(ADDON.getSetting('auth_basic_username'), ADDON.getSetting('auth_basic_password'))
 
