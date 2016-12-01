@@ -2,6 +2,10 @@
 
 import base64
 import collections
+try:    # OrderedDict is new in python 2.7
+    from collections import OrderedDict as OrderedDict
+except:
+    from ordereddict import OrderedDict
 import datetime
 import time
 import re
@@ -43,7 +47,7 @@ def convert_mapping(raw):
     if raw is None:
         return None
     else:
-        mapping = collections.OrderedDict()
+        mapping = OrderedDict()
         for l in as_array(raw):
             try:
                 mapping[Decimal(l['command'])] = l['label']
