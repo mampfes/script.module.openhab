@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-  <setting label="30000" id="host" type="text" default="127.0.0.1" />
-  <setting label="30001" id="port" type="number" default='8080' />
+  <setting label="30012" id="server" type="enum" lvalues="30120|30121" default="0"/>
+  <setting label="30000" id="host" type="text" default="127.0.0.1"/>
+  <setting label="30001" id="port" type="number" default="8080"/>
   <setting label="30006" type="action" action="RunScript(script.module.openhab, show_sitemaps)"/>
-  <setting label="30002" id="sitemap" type="text" default='demo' />
+  <setting label="30002" id="sitemap" type="text" default="demo"/>
   <setting label="30011" id="proxy" type="enum" lvalues="30110|30111" default="0"/>
   <setting label="30003" id="authentication" type="enum" lvalues="30100|30101" default="0"/>
-  <setting label="30004" id="auth_basic_username" type="text" default="" enable="eq(-1,1)" subsetting="true" />
-  <setting label="30005" id="auth_basic_password" type="text" default="" enable="eq(-2,1)" subsetting="true" option="hidden" />
+  <setting label="30004" id="auth_basic_username" type="text" default="" enable="eq(-1,1)" subsetting="true"/>
+  <setting label="30005" id="auth_basic_password" type="text" default="" enable="eq(-2,1)" subsetting="true" option="hidden"/>
   <!--<setting label="30009" id="auto_update" type="bool" default="true"/>-->
   <setting label="30010" id="debug" type="bool" default="false"/>
 </settings>

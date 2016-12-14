@@ -6,10 +6,18 @@ import xbmcgui
 import sys
 import requests
 import resources.lib.menulist as menulist
+import resources.lib.openhab1 as openhab1
 import resources.lib.openhab2 as openhab2
 from resources.lib.debugout import debugPrint
 
 ADDON = xbmcaddon.Addon()
+
+
+def getServer():
+    if ADDON.getSetting('server') == '0':  # openhab1
+        return openhab1
+    elif ADDON.getSetting('server') == '1':  # openhab2
+        return openhab2
 
 
 class MainWindow(menulist.MainWindow):
@@ -26,7 +34,7 @@ class MainWindow(menulist.MainWindow):
         self.homepage = None
 
     def build_menu(self):
-        self.oh = openhab2.Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
+        self.oh = getServer().Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
         self.oh.terminate_callback.append(lambda oh: self.connection_lost())
 
         #if ADDON.getSetting('auto_update') == 'true':
@@ -113,13 +121,18 @@ class MainWindow(menulist.MainWindow):
             elif w.type_ == 'Slider':
                 li = menulist.ListItemSlider(w.item)
             elif w.type_ == 'Switch':
-                if w.item.type_ == 'Switch':
+                item_type = w.item.type_
+
+                if item_type.endswith('Item'):  # remove trailing 'Item' from openhab1
+                    item_type = item_type[:-4]
+
+                if item_type == 'Switch':
                     li = menulist.ListItemSwitch(w.item)
-                elif w.item.type_ == 'Rollershutter':
+                elif item_type == 'Rollershutter':
                     li = menulist.ListItemRollerShutter(w.item)
-                elif w.item.type_ == 'Number':
+                elif item_type == 'Number':
                     li = menulist.ListItemSelection(w.item)
-                elif w.item.type_ == 'Group':
+                elif item_type == 'Group':
                     li = menulist.ListItemSelection(w.item)
                 else:
                     debugPrint(1, 'SwitchWidget [%s]: unsupported item type: %s' % (w.widgetId, w.item.type_))
@@ -175,7 +188,7 @@ class MainWindow(menulist.MainWindow):
 
 def show_sitemaps():
     # show sitemap selection dialog instead of main window if called from settings dialog
-    oh = openhab2.Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
+    oh = getServer().Server(ADDON.getSetting('host'), ADDON.getSetting('port'))
     if ADDON.getSetting('authentication') == '1':
         oh.set_basic_auth(ADDON.getSetting('auth_basic_username'), ADDON.getSetting('auth_basic_password'))
 
