@@ -1,5 +1,9 @@
+V2.0.0 (10-Mar-2017)
+	(fix) fixed krypton support
+	(add) openhab2 support
+
 V1.0.2 (25-Feb-2016)
-	(add) fixed jarvis support
+	(fix) fixed jarvis support
 
 V1.0.1 (12-Nov-2015)
 	(add) improved error handling
