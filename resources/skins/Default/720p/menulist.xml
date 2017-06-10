@@ -253,7 +253,7 @@
                             <width>400</width>
                             <height>35</height>
                             <font>font13_title</font>
-                            <textcolor>blue</textcolor>
+                            <textcolor>FFEE6E73</textcolor>
                             <info>ListItem.Label</info>
                             <visible>StringCompare(ListItem.Property(type), separator)</visible>
                         </control>
@@ -369,7 +369,7 @@
                             <width>400</width>
                             <height>35</height>
                             <font>font13_title</font>
-                            <textcolor>blue</textcolor>
+                            <textcolor>FFEE6E73</textcolor>
                             <info>ListItem.Label</info>
                             <visible>StringCompare(ListItem.Property(type), separator)</visible>
                         </control>

@@ -996,7 +996,7 @@ class SwitchItem(ItemBase):
         elif value == 'OFF':
             return False
         else:
-            raise ValueError
+            return None #raise ValueError
 
     def state_to_string(self, value):
         if value is None:
