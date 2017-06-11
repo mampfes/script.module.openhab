@@ -48,21 +48,23 @@ class MainWindow(menulist.MainWindow):
 
         try:
             self.oh.load_sitemaps()
-            self.homepage = self.oh.sitemaps[ADDON.getSetting('sitemap')].load_page()
+            try:
+                sitemap = self.oh.sitemaps[ADDON.getSetting('sitemap')]
+            except KeyError:
+                # invalid sitemap -> close window immediately
+                debugPrint(1, "build_menu failed, host=%s, port=%s, auth=%s, sitemap=%s sitemaps=%s" %
+                       (ADDON.getSetting('host'), ADDON.getSetting('port'),
+                        ADDON.getSetting('authentication'), ADDON.getSetting('sitemap'), self.oh.sitemaps))
+                xbmcgui.Dialog().ok(ADDON.getLocalizedString(30007), ADDON.getLocalizedString(30206))
+                self.close()
+                ADDON.openSettings()
+            self.homepage = sitemap.load_page()
         except requests.exceptions.RequestException as e:
             # no connection to openhab server -> close window immediately
             debugPrint(1, "build_menu failed, host=%s, port=%s, auth=%s, e=%s" %
                    (ADDON.getSetting('host'), ADDON.getSetting('port'),
                     ADDON.getSetting('authentication'), repr(e)))
             xbmcgui.Dialog().ok(ADDON.getLocalizedString(30007), ADDON.getLocalizedString(30201))
-            self.close()
-            ADDON.openSettings()
-        except KeyError:
-            # invalid sitemap -> close window immediately
-            debugPrint(1, "build_menu failed, host=%s, port=%s, auth=%s, sitemap=%s" %
-                   (ADDON.getSetting('host'), ADDON.getSetting('port'),
-                    ADDON.getSetting('authentication'), ADDON.getSetting('sitemap')))
-            xbmcgui.Dialog().ok(ADDON.getLocalizedString(30007), ADDON.getLocalizedString(30206))
             self.close()
             ADDON.openSettings()
         self.enter_sub_menu(self.homepage)

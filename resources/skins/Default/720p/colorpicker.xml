@@ -3,8 +3,8 @@
 	<defaultcontrol always="true">100</defaultcontrol>
 	<coordinates>
 		<system>1</system>
-		<left>340</left>
-		<top>40</top>
+		<left>100</left>
+		<top>60</top>
 	</coordinates>
 	<allowoverlay>yes</allowoverlay>
 	<include>dialogeffect</include>
@@ -22,26 +22,26 @@
 			<control type="panel" id="100">
 				<left>30</left>
 				<top>82</top>
-				<width>544</width>
-				<height>304</height>
+				<width>200</width>
+				<height>110</height>
 				<onup>100</onup>
 				<ondown>100</ondown>
 				<onleft>100</onleft>
 				<onright>100</onright>
 				<orientation>horizontal</orientation>
 				<scrolltime>200</scrolltime>
-				<itemlayout height="60" width="60">
+				<itemlayout height="22" width="22">
 					<control type="group">
-						<left>4</left>
-						<top>4</top>
+						<left>2</left>
+						<top>2</top>
 						<control type="image">
-							<width>56</width>
-							<height>56</height>
+							<width>20</width>
+							<height>20</height>
 							<texture>$INFO[ListItem.Art(thumb)]</texture>
 						</control>
 						<control type="label">
-							<width>56</width>
-							<height>56</height>
+							<width>20</width>
+							<height>20</height>
 							<align>center</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
@@ -50,8 +50,8 @@
                             <visible>ListItem.IsSelected + !StringCompare(ListItem.Label, FF000000)</visible>
 						</control>
 						<control type="label">
-							<width>56</width>
-							<height>56</height>
+							<width>20</width>
+							<height>20</height>
 							<align>center</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
@@ -61,25 +61,25 @@
 						</control>
 					</control>
 				</itemlayout>
-				<focusedlayout height="60" width="60">
+				<focusedlayout height="22" width="22">
                     <control type="image">
                         <left>0</left>
                         <top>0</top>
-                        <width>64</width>
-                        <height>64</height>
+                        <width>24</width>
+                        <height>24</height>
                         <texture>colors/FFFFFFFF.png</texture>
                     </control>
 					<control type="group">
-						<left>4</left>
-						<top>4</top>
+						<left>2</left>
+						<top>2</top>
 						<control type="image">
-							<width>56</width>
-							<height>56</height>
+							<width>20</width>
+							<height>20</height>
 							<texture>$INFO[ListItem.Art(thumb)]</texture>
 						</control>
 						<control type="label">
-							<width>56</width>
-							<height>56</height>
+							<width>20</width>
+							<height>20</height>
 							<align>center</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
@@ -88,8 +88,8 @@
                             <visible>ListItem.IsSelected + !StringCompare(ListItem.Label, FF000000)</visible>
 						</control>
 						<control type="label">
-							<width>56</width>
-							<height>56</height>
+							<width>20</width>
+							<height>20</height>
 							<align>center</align>
 							<aligny>center</aligny>
 							<font>font13_title</font>
