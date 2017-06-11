@@ -510,7 +510,10 @@ class ImageWidget(WidgetBase):
     @update_proxy
     def init(self, widgetData):
         super(ImageWidget, self).init(widgetData)
-        self.attribs['linkedPage'] = widgetData['linkedPage']  # don't create an extra Page because not used so far
+        if 'linkedPage' in widgetData:
+            self.attribs['linkedPage'] = widgetData['linkedPage']  # don't create an extra Page because not used so far
+        else:
+            self.attribs['linkedPage'] = None
         self.attribs['url'] = widgetData['url']
         self.attribs['refresh'] = int(widgetData.get('refresh', 0))
 

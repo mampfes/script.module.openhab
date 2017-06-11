@@ -1,3 +1,9 @@
+V2.0.1 (11-Jun-2017)
+	(fix) handle ImageWidget without linkedPage
+	(fix) set openHAB2 as default server
+	(fix) moved selection list and color picker to left (PR49e3d14)
+	(fix) altered colors (PR49e3d14)
+
 V2.0.0 (10-Mar-2017)
 	(fix) fixed krypton support
 	(add) openhab2 support
